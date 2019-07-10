@@ -1,0 +1,14 @@
+#!/bin/sh
+#
+# GMQL dataset backup
+#
+# Author: Olga Gorlova
+#
+# email: olha.horlova@polimi.it
+#
+
+cd "$(dirname "$0")"
+
+JAVA_CMD="java -cp ../target/uber-GMQL-Sync-*-jar-with-dependencies.jar it.polimi.genomics.GMQLSync.DSBackup $@"
+s=$@
+$JAVA_CMD
