@@ -12,16 +12,23 @@ The following tools are required to be installed on both servers for the correct
          $ sudo apt-get install libxml-xpath-perl
          $ sudo apt-get install ssh
          ```
+## Installation
+```sh
+git clone https://github.com/OlgaGorlova/GMQL-Sync.git
+cd GMQL-Sync
+mvn clean install
+```
+
 ## Usage
 ```sh
-$ ./gmqlsync.sh [<options>] <SOURCE> <DEST>
+$ ./bin/gmqlsync.sh [<options>] <SOURCE> <DEST>
 ```
 `gmqlsync.sh` **MUST BE** run on `<SOURCE>` server
 
 <!--### Defaults
 It can also be used with no parameters:
    ```sh
-   $ ./gmqlsync.sh
+   $ ./bin/gmqlsync.sh
    ```
 In that case, the `<SOURCE>` and `<DEST>` are set to the following:
   - `<SOURCE>`=/home/gmql/gmql_repository/data/public
@@ -44,17 +51,17 @@ In that case, the `<SOURCE>` and `<DEST>` are set to the following:
 
 1. To synchronize cineca server with genomic, run the following command:
 ```sh
-$ ./gmqlsync.sh /home/gmql/gmql_repository/data/public cineca:/gmql-data/gmql_repository/data/public
+$ ./bin/gmqlsync.sh /home/gmql/gmql_repository/data/public cineca:/gmql-data/gmql_repository/data/public
 ```
 2. To get a list of datasets that exists on genomic server, but are missed on cineca server, run the following:
 ```sh
-$ ./gmqlsync.sh --dry-run /home/gmql/gmql_repository/data/public cineca:/gmql-data/gmql_repository/data/public
+$ ./bin/gmqlsync.sh --dry-run /home/gmql/gmql_repository/data/public cineca:/gmql-data/gmql_repository/data/public
 ```
    With `--dry-run` option, the script only checks for differences on the serves, and generates a file with a list of new     datasets.
 
 3. To allow deletion of datasets that we removed from genomic server, use the following command:
 ```sh
-$ ./gmqlsync.sh --delete /home/gmql/gmql_repository/data/public cineca:/gmql-data/gmql_repository/data/public
+$ ./bin/gmqlsync.sh --delete /home/gmql/gmql_repository/data/public cineca:/gmql-data/gmql_repository/data/public
 ```
 
 ## Description
@@ -81,6 +88,7 @@ The tool consists of several script files to make less ssh connections:
 - `gmqlsyncDelHdfsDest.sh` removes datasets on the destination server
 
 **NOTE:** `ssh` connection to the remote server should be passwordless.
+
 
 # Backup script
 The script is designed for backing up GMQL public repository after the synchronization.
