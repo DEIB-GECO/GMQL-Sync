@@ -26,6 +26,7 @@ object ZipWriter {
     * any finally blocks.
     */
   def createZip(dirName: String): Unit = { // the directory to be zipped
+    LOG.info(s"Zipping '$dirName' ...")
     val directory = Paths.get(dirName)
     ZIP_DIR = dirName
     OUTPUT_ZIP = s"$dirName.zip"

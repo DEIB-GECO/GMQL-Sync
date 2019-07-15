@@ -15,6 +15,7 @@ import com.github.fracpete.processoutput4j.output.CollectingProcessOutput
 
 import scala.collection.JavaConverters._
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.{Await, Future}
 import scala.concurrent.duration.Duration
 /**
   * Created by Olga Gorlova on 08/07/2019.
@@ -22,7 +23,7 @@ import scala.concurrent.duration.Duration
 object DSBackup {
 
   private final val logger = Logger.getLogger(this.getClass)
-  Utilities.confFolder = new File(getClass.getResource("/gmql_conf").getPath).getAbsolutePath
+  Utilities.confFolder = new File("gmql_conf/").getAbsolutePath /*"/Users/olha/IdeaProjects/GMQL-Sync/src/main/resources/gmql_conf"*/
   val ut: Utilities = Utilities()
   val repository: GMQLRepository = ut.getRepository()
   var username: String = "public"
@@ -162,15 +163,16 @@ object DSBackup {
         Locallocatoin = args(2)
         backuplocatoin = args(3)
         if (args.length == 5) username = args(4)
-        scala.io.Source.fromFile(DatasetsList).getLines().foreach{ ds =>
-          if (repository.DSExists(ds, username))
-            backupTo(ds, username, Locallocatoin, backuplocatoin)
-//            backup(ds, username, Locallocatoin, backuplocatoin)
-          else
-          {
-            logger.warn(s"Dataset '$ds' is not found for '$username' user")
+        Await.result(Future.sequence( scala.io.Source.fromFile(DatasetsList).getLines().map{ ds =>
+          Future {
+            if (repository.DSExists(ds, username))
+              backupTo(ds, username, Locallocatoin, backuplocatoin)
+            //            backup(ds, username, Locallocatoin, backuplocatoin)
+            else {
+              logger.warn(s"Dataset '$ds' is not found for '$username' user")
+            }
           }
-        }
+        }), Duration.Inf)
       case _ =>
         logger.error("The Command is not defined....")
         logger.warn(usage)
@@ -186,6 +188,7 @@ object DSBackup {
     */
   def exportDsToLocal(dataSetName: String, userName: String, localDir:String): Unit = {
 
+    logger.info(s"Exporting '$dataSetName' to local ...")
     // export the schema and the script files
     FileUtils.copyInputStreamToFile(repository.getInfoStream(dataSetName, username), new File(s"$localDir/$dataSetName/info.txt"))
     FileUtils.copyInputStreamToFile(repository.getSchemaStream(dataSetName, username), new File(s"$localDir/$dataSetName/files/schema.xml"))
@@ -259,6 +262,7 @@ object DSBackup {
   def backupTo(dataSetName: String, userName: String, localDir:String, backupDir:String): Unit ={
     zip(dataSetName, userName, localDir)
 
+    logger.info(s"Sending '$dataSetName' to '$backupDir' ...")
     val rsync: RSync = new RSync()
       .source(s"$localDir/$dataSetName.zip")
       .destination(backupDir)
@@ -272,7 +276,7 @@ object DSBackup {
 //    System.out.println("Exit code: " + output.getExitCode)
     if (output.getExitCode > 0) System.err.println(output.getStdErr)
     else {
-      logger.info(s"Rsync. '$dataSetName.zip' was moved to $backupDir")
+      logger.info(s"RSYNC: '$dataSetName.zip' is sent to $backupDir")
       new File(s"$localDir/$dataSetName.zip").delete()
     }
   }
