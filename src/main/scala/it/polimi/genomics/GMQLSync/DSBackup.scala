@@ -23,7 +23,7 @@ import scala.concurrent.duration.Duration
 object DSBackup {
 
   private final val logger = Logger.getLogger(this.getClass)
-  Utilities.confFolder = new File("gmql_conf/").getAbsolutePath /*"/Users/olha/IdeaProjects/GMQL-Sync/src/main/resources/gmql_conf"*/
+  Utilities.confFolder = new File("../gmql_conf/").getAbsolutePath /*"/Users/olha/IdeaProjects/GMQL-Sync/src/main/resources/gmql_conf"*/
   val ut: Utilities = Utilities()
   val repository: GMQLRepository = ut.getRepository()
   var username: String = "public"
