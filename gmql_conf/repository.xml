@@ -1,6 +1,6 @@
 <?xml version = "1.0" encoding="UTF-8" standalone="yes"?>
 <gmqlProperties xmlns="http://genomic.elet.polimi.it/entities">
-    <property name="GMQL_LOCAL_HOME">~/gmql_repository</property>
+    <property name="GMQL_LOCAL_HOME">/home/gmql/gmql_repository</property>
     <property name="GMQL_DFS_HOME">/user/</property>
     <property name="GMQL_REPO_TYPE">HDFS</property>
     <property name="HADOOP_HOME">/usr/local/Cellar/hadoop/2.7.3/</property>
