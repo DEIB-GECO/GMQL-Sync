@@ -90,23 +90,42 @@ The tool consists of several script files to make less ssh connections:
 **NOTE:** `ssh` connection to the remote server should be passwordless.
 
 
-# Backup script
-The script is designed for backing up GMQL public repository after the synchronization.
+# Backup tool
+The tool is designed for backing up GMQL public repository after the synchronization.
 
 ## Description
-The script performs the backup of the datasets from a given list to a given destination server. It simply downloads the datasets from genomic server using REST API. If `--full` option is used, then it firts takes the list of all datasets in genomic repository and then downloads all of them to destination server.
+The script performs the backup of the datasets from a given list to a given destination server. It first exports a dataset to a temporary folder on local file system, then zip it and sends to the destination backup server.
 
 ## Usage
 ```sh
-$ ./backupDS.sh [<options>] <FILENAME> <DEST>
+$ bin/DSBackup $COMMAND 
 ```
-`<DEST>` should be in the following format: `<server>:<path>`
 
-### Options
-| Option            | Description |
-|-------------------|-------------|
-|  `--full`         | do the full GMQL repository backup|
-|  `--help, (-h)`   | show help|
+### Allowed Commands are:
+- `BackupTo <DS_NAME> <TMP_DIR> <BACKUP_PATH>`
+
+   This command backup a dataset named `DS_NAME` to backup folder. </br>
+   `TMP_DIR` is the full path to the temporary local location. </br>
+   `BACKUP_PATH` is the full path to the backup location on the remote server
+
+- `BackupALL <DS_LIST_FILE> <TMP_DIR> <BACKUP_PATH>`
+
+   This command backup all datasets from the `DS_LIST_FILE` to backup folder.</br>
+	`TMP_DIR` is the full path to the temporary local location. </br>
+	`BACKUP_PATH` is the full path to the backup location on the remote server.
+   
+- `Zip <DS_NAME> <LOCAL_DIRECTORY>`
+   
+   This command zip a dataset named `DS_NAME` to local folder.</br>
+	`LOCAL_DIRECTORY` is the full path to the local location.
+   
+- `ZipALL <DS_LIST_FILE> <LOCAL_DIRECTORY>`
+   
+   This command zip all datasets listed in the file `DS_LIST_FILE` to local directory.
+   
+- `h` or `help`
+
+   Shows usage.
 
 ### Examples
 
@@ -114,10 +133,21 @@ $ ./backupDS.sh [<options>] <FILENAME> <DEST>
 `"/share/repository/gmqlsync/tmpSYNC/rsync_add.txt"`
 You can use this file to backup the newly added datasets:
 ```sh
-$ ./backupDS.sh /share/repository/gmqlsync/tmpSYNC/rsync_add.txt geco:/home/hdfs/gmql_repo_backup/
+$ bin/DSBackup BackupAll /share/repository/gmqlsync/tmpSYNC/rsync_add.txt /share/repository/gmqlsync/tmpHDFS geco:/home/hdfs/gmql_repo_backup/
 ```
-2. If you want to do the backup of full GMQL public repository, then you can use `--full` option. In this case, you do not need to provide the file with dataset list:
+**NOTE:** Datasets will be first copied to local folder `"/share/repository/gmqlsync/tmpHDFS"`, then zipped and sent to `"geco:/home/hdfs/gmql_repo_backup/"`. After that, the temporary folder will be cleaned up.
+
+2. If you want to do the backup of only one dataset, use the following command:
 ```sh
-$ ./backupDS.sh --full geco:/home/hdfs/gmql_repo_backup/
+$ bin/DSBackup BackupAll <DS_NAME> /share/repository/gmqlsync/tmpHDFS geco:/home/hdfs/gmql_repo_backup/
+```
+
+3. If the backup directory is on the local server, you can use `Zip` or `ZipAll` commands:
+```sh
+$ bin/DSBackup Zip <DS_NAME> /home/hdfs/gmql_repo_backup/
+```
+   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; OR
+```sh
+$ bin/DSBackup ZipAll /share/repository/gmqlsync/tmpSYNC/rsync_add.txt /home/hdfs/gmql_repo_backup/
 ```
 
