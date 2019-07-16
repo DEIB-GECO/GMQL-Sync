@@ -61,6 +61,8 @@ object DSBackup {
       "\t\tTo Delete a dataset named DS_NAME in the LOCAL_DIRECTORY folder on the Local File System.\n\n";
 
   def main(args: Array[String]): Unit = {
+
+    println("RepoDir: " + ut.RepoDir)
     if (args.length > 0 && ("h" == args(0) || "help" == args(0))) {
       logger.warn(usage)
       System.exit(0)
