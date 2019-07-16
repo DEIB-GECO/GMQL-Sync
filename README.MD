@@ -14,7 +14,7 @@ The following tools are required to be installed on both servers for the correct
          ```
 ## Installation
 ```sh
-git clone https://github.com/OlgaGorlova/GMQL-Sync.git
+git clone https://github.com/DEIB-GECO/GMQL-Sync.git
 cd GMQL-Sync
 mvn clean install
 ```
