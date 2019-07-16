@@ -19,6 +19,8 @@ cd GMQL-Sync
 mvn clean install
 ```
 
+# Synchronization script
+
 ## Usage
 ```sh
 $ ./bin/gmqlsync.sh [<options>] <SOURCE> <DEST>
