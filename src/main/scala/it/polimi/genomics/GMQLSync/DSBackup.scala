@@ -41,16 +41,16 @@ object DSBackup {
       "\t\tThis command zip a dataset named DS_NAME to local folder.\n" +
       "\t\tLOCAL_DIRECTORY is the full path to the local location. \n\n" +
       "\tZipALL DS_LIST_FILE LOCAL_DIRECTORY\n\n" +
-      "\t\tThis command zip all datasets listed in the file DS_LIST_FILE to local directory.\n" +
+      "\t\tThis command zip all datasets listed in the file DS_LIST_FILE to local directory.\n\n" +
       "\tBackupTo DS_NAME TMP_DIR BACKUP_PATH\n\n" +
       "\t\tThis command backup a dataset named DS_NAME to backup folder.\n" +
-      "\t\tTMP_DIR is the full path to the temporary local location. \n\n" +
+      "\t\tTMP_DIR is the full path to the temporary local location. \n" +
       "\t\tBACKUP_PATH is the full path to the backup location on the remote server, should be in the following format: \n" +
       "\t\t\tBACKUP_SERVER:BACKUP_DIRECTORY. \n\n" +
       "\tBackupALL DS_LIST_FILE TMP_DIR BACKUP_PATH\n\n" +
       "\t\tThis command backup all datasets from the DS_LIST_FILE to backup folder.\n" +
-      "\t\tTMP_DIR is the full path to the temporary local location. \n\n" +
-      "\t\tBACKUP_PATH is the full path to the backup location on the remote server, should be in the following format: \n" +
+      "\t\tTMP_DIR is the full path to the temporary local location. \n" +
+      "\t\tBACKUP_PATH is the full path to the backup location on the remote server, should be in the following format: \n\n" +
       "\t\t\tBACKUP_SERVER:BACKUP_DIRECTORY. \n\n" +
       "\tExportDSToLocal DS_NAME LOCAL_DIRECTORY\n\n" +
       "\t\tThis command export all the samples of DS_NAME to local folder.\n" +
