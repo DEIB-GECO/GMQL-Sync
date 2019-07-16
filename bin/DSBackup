@@ -9,7 +9,7 @@
 
 cd "$(dirname "$0")"
 
-JAVA_CMD="java -cp ../target/uber-GMQL-Sync-*.jar it.polimi.genomics.GMQLSync.DSBackup $@"
+JAVA_CMD="java -Xmx2g -cp ../target/uber-GMQL-Sync-*.jar it.polimi.genomics.GMQLSync.DSBackup $@"
 SPARK_CMD="/usr/local/spark/bin/spark-submit --class it.polimi.genomics.GMQLSync.DSBackup --driver-memory 2048m ../target/uber-GMQL-Sync-*.jar $@"
 s=$@
 $JAVA_CMD
