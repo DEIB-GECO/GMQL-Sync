@@ -39,13 +39,13 @@ object ZipWriter {
         // to the zip file by calling addToZipFile(..)
         val dirStream: DirectoryStream[Path] = Files.newDirectoryStream(directory)
         for (path <- dirStream) yield {
-          if (!path.toFile.isDirectory /*&& !path.toFile.getName.startsWith(".")*/)
+          if (!path.toFile.isDirectory && !path.toFile.getName.startsWith("."))
             addToZipFile(path, zipStream, false)
           else{
             addToZipFile(path, zipStream, true)
             val subDirStream: DirectoryStream[Path] = Files.newDirectoryStream(path)
             for (subPath <- subDirStream) yield {
-             /* if (!subPath.toFile.getName.startsWith("."))*/
+              if (!subPath.toFile.getName.startsWith("."))
               addToZipFile(subPath, zipStream, true)
             }
           }
