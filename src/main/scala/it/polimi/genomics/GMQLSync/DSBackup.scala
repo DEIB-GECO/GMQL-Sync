@@ -23,7 +23,7 @@ import scala.concurrent.duration.Duration
 object DSBackup {
 
   private final val logger = Logger.getLogger(this.getClass)
-  Utilities.confFolder = new File("../gmql_conf/").getAbsolutePath /*"/Users/olha/IdeaProjects/GMQL-Sync/src/main/resources/gmql_conf"*/
+  Utilities.confFolder = new File("../gmql_conf/").getAbsolutePath /*"/Users/olha/IdeaProjects/GMQL-Sync2/gmql_conf"*/
   val ut: Utilities = Utilities()
   val repository: GMQLRepository = ut.getRepository()
   var username: String = "public"
@@ -165,16 +165,16 @@ object DSBackup {
         Locallocatoin = args(2)
         backuplocatoin = args(3)
         if (args.length == 5) username = args(4)
-        Await.result(Future.sequence( scala.io.Source.fromFile(DatasetsList).getLines().map{ ds =>
-          Future {
+        /*Await.result(Future.sequence(*/ scala.io.Source.fromFile(DatasetsList).getLines().map{ ds =>
+          /*Future {*/
             if (repository.DSExists(ds, username))
               backupTo(ds, username, Locallocatoin, backuplocatoin)
             //            backup(ds, username, Locallocatoin, backuplocatoin)
             else {
               logger.warn(s"Dataset '$ds' is not found for '$username' user")
             }
-          }
-        }), Duration.Inf)
+          }/**/
+        /*}), Duration.Inf)*/
       case _ =>
         logger.error("The Command is not defined....")
         logger.warn(usage)
