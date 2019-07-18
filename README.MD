@@ -141,7 +141,7 @@ $ bin/DSBackup BackupAll /share/repository/gmqlsync/tmpSYNC/rsync_add.txt /share
 
 2. If you want to do the backup of only one dataset, use the following command:
 ```sh
-$ bin/DSBackup BackupAll <DS_NAME> /share/repository/gmqlsync/tmpHDFS geco:/home/hdfs/gmql_repo_backup/
+$ bin/DSBackup BackupTo <DS_NAME> /share/repository/gmqlsync/tmpHDFS geco:/home/hdfs/gmql_repo_backup/
 ```
 
 3. If the backup directory is on the local server, you can use `Zip` or `ZipAll` commands:
