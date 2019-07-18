@@ -62,7 +62,7 @@ object DSBackup {
 
   def main(args: Array[String]): Unit = {
 
-    println("RepoDir: " + ut.RepoDir)
+//    println("RepoDir: " + ut.RepoDir)
     if (args.length > 0 && ("h" == args(0) || "help" == args(0))) {
       logger.warn(usage)
       System.exit(0)
@@ -165,16 +165,13 @@ object DSBackup {
         Locallocatoin = args(2)
         backuplocatoin = args(3)
         if (args.length == 5) username = args(4)
-        /*Await.result(Future.sequence(*/ scala.io.Source.fromFile(DatasetsList).getLines().map{ ds =>
-          /*Future {*/
+        scala.io.Source.fromFile(DatasetsList).getLines().foreach{ ds =>
             if (repository.DSExists(ds, username))
               backupTo(ds, username, Locallocatoin, backuplocatoin)
-            //            backup(ds, username, Locallocatoin, backuplocatoin)
             else {
               logger.warn(s"Dataset '$ds' is not found for '$username' user")
             }
-          }/**/
-        /*}), Duration.Inf)*/
+          }
       case _ =>
         logger.error("The Command is not defined....")
         logger.warn(usage)
